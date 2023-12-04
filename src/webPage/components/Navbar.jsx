@@ -1,11 +1,12 @@
 import {Link} from 'react-router-dom';
+import '../css/script.css'
 export default function Navbar() {
     return (
         <nav>
-            <div className="script">
-                <Link to="/" className="btn btn-primary">Home</Link>
-                <Link to="/login" className="btn btn-primary">Login</Link>
-                <Link to="/playlists" className="btn btn-primary">Playlists</Link>
+            <div className="btn_set">
+                <Link to="/" className="btn_style">Home</Link>
+                <Link to="/login" className="btn_style">Login</Link>
+                <Link to="/playlists" className="btn_style">Playlists</Link>
             </div>
         </nav>
     );

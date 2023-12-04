@@ -1,4 +1,42 @@
-.div{
-    background-color: #61dafb;
+.btn_set {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height: 100vh;
+    width: 100vw;
+}
 
+.btn_style {
+    margin: 0 10px 0 0;
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #3498db;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px; /* 圓弧化的半徑值 */
+    transition: transform 0.3s;
+}
+
+/* 按鈕樣式的立體效果 */
+.btn_style ::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    right: -5px;
+    bottom: 5px;
+    left: -5px;
+    background: #2671a3;
+    transform: skew(-15deg);
+    z-index: -1;
+}
+
+/* 按鈕樣式的懸停效果 */
+.btn_style:hover {
+    transform: scale(1.1);
 }
