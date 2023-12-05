@@ -1,5 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
+import SpotifyAPI from "./setting/SpotifyAPI";
+import isMobileDevice from "./setting/isMobileDevice";
 
 const currentToken = {
     get access_token() {
@@ -14,34 +16,53 @@ const currentToken = {
 export default function Callback() {
     const navigate = useNavigate();
     useEffect(() => {
-        const code = new URLSearchParams(window.location.search).get('code');
-        const codeVerifier = localStorage.getItem('code_verifier');
-        if (code) {
-            fetchAccessToken(code, codeVerifier).then(data => {
-                if (data && data.access_token) {
-                    currentToken.save(data);
-                    navigate('/playlists');
+        if (window.opener || isMobileDevice()) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            const error = urlParams.get('error');
+            if (code) {
+                fetchAccessToken(code).then(data => {
+                    if (data && data.access_token) {
+                        currentToken.save(data);
+                        if (window.opener) {
+                            window.opener.postMessage({type: 'authorized'}, '*');
+                            window.close();
+                        }
+                        navigate('/playlists');
+                    }
+                }).catch(error => {
+                    console.error('Error fetching access token:', error);
+                    if (window.opener) {
+                        window.opener.postMessage({type: 'AUTH_ERROR', error}, '*');
+                        window.close();
+                    }
+                    navigate('/');
+                });
+            } else if (error) {
+                //?error=access_denied
+                if (window.opener) {
+                    window.opener.postMessage({type: 'AUTH_ERROR', error}, '*');
+                    window.close();
                 }
-            }).catch(error => {
-                console.error('Error fetching access token:', error);
-            });
-        } else if (new URLSearchParams(window.location.search).get('error')) {
-            //?error=access_denied
+                navigate('/');
+            }
+        } else {
             navigate('/');
         }
     }, [navigate]);
 
-    const fetchAccessToken = async (code, codeVerifier) => {
+    const fetchAccessToken = async (code) => {
+        const codeVerifier = localStorage.getItem('code_verifier');
         const response = await fetch('https://accounts.spotify.com/api/token', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: new URLSearchParams({
-                client_id: 'ebf1bf4571374afa83e28c5c465bf0e6',
+                client_id: SpotifyAPI.client_id,
                 grant_type: 'authorization_code',
                 code: code,
-                redirect_uri: 'http://localhost:3000/callback',
+                redirect_uri: SpotifyAPI.redirect_uri,
                 code_verifier: codeVerifier,
             }),
         });

@@ -10,9 +10,9 @@ export default function PlaylistSelector() {
     const token = localStorage.getItem('access_token');
 
     useEffect(() => {
-        if(!token){
+        if (!token) {
             navigate("/login");
-            return ;
+            return;
         }
         fetch('https://api.spotify.com/v1/me/playlists', {
             headers: {
@@ -22,11 +22,11 @@ export default function PlaylistSelector() {
             .then(response => {
                 if (response.ok) {
                     return response.json();
-                // } else if (response.status === 401) {
-                //     navigate('/login');
-                //     throw new Error('Unauthorized');
-                // } else {
-                //     throw new Error('Failed to fetch playlists');
+                } else if (response.status === 401) {
+                    navigate('/login');
+                    throw new Error('Unauthorized');
+                } else {
+                    throw new Error('Failed to fetch playlists');
                 }
             })
             .then(data => setPlaylists(data.items))
@@ -34,7 +34,7 @@ export default function PlaylistSelector() {
                 console.error(error);
                 setPlaylists(null);
             });
-    }, [token,navigate]);
+    }, [token, navigate]);
 
     const handleToggle = (playlistId) => {
         setOpenPlaylistId(openPlaylistId === playlistId ? null : playlistId);
