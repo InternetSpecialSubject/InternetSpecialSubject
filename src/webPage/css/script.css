@@ -1,7 +1,10 @@
-.btn_set {
+.btn_container {
     display:flex;
     align-items:center;
     justify-content:center;
+    background-size: cover;
+    background-position: center;
+    background-image: url("../img/home_img.jpg");
     height: 100vh;
     width: 100vw;
 }
@@ -10,8 +13,8 @@
     margin: 0 10px 0 0;
     display: inline-block;
     padding: 15px 30px;
-    background-color: #3498db;
-    color: #fff;
+    background: linear-gradient(37deg, #008b8b, #ffff00);
+    color: blue;
     text-align: center;
     text-decoration: none;
     font-size: 16px;
@@ -19,11 +22,10 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    border-radius: 10px; /* 圓弧化的半徑值 */
+    border-radius: 10px;
     transition: transform 0.3s;
 }
 
-/* 按鈕樣式的立體效果 */
 .btn_style ::before {
     content: '';
     position: absolute;
@@ -36,7 +38,6 @@
     z-index: -1;
 }
 
-/* 按鈕樣式的懸停效果 */
 .btn_style:hover {
     transform: scale(1.1);
 }
