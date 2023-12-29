@@ -1,28 +1,51 @@
-.btn_container {
+.background_container{
     display:flex;
     align-items:center;
     justify-content:center;
     background-size: cover;
     background-position: center;
     background-image: url("../img/home_img.jpg");
-    height: 100vh;
-    width: 100vw;
+    height: 400px;
+    width: 100%;
 }
 
+.logo-container {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: black;
+    opacity: 0.7;
+    backdrop-filter: blur(5px);
+    position: fixed;
+    transition: opacity 0.3s ease;
+}
+
+.logo-container:hover {
+    opacity: 1;
+    backdrop-filter: blur(5px);
+}
+
+.logo_img {
+    width: 70px;
+    height: 60px;
+    cursor: pointer;
+}
+
+
 .btn_style {
-    margin: 0 10px 0 0;
+    margin: 0 50px 0 0;
+    padding: 15px 0 12.5px 0;
     display: inline-block;
-    padding: 15px 30px;
-    background: linear-gradient(37deg, #008b8b, #ffff00);
-    color: blue;
+    float: right;
+    color: white;
     text-align: center;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 18px;
     border: none;
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    border-radius: 10px;
     transition: transform 0.3s;
 }
 
@@ -40,4 +63,21 @@
 
 .btn_style:hover {
     transform: scale(1.1);
+    border-bottom: orange 3px solid;
+}
+
+.first_p{
+    position: absolute;
+    top: 70%;
+    left: -100%;
+    white-space: nowrap;
+    font-size: 32px;
+    color: #fff;
+    animation: slideIn 2s forwards;
+}
+
+@keyframes slideIn {
+    to {
+        left: 25%; /* 文本最终位置在屏幕中间 */
+    }
 }
